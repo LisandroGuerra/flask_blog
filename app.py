@@ -2,6 +2,8 @@ from datetime import datetime
 from flask import Flask, flash, redirect, render_template, url_for
 from flask_sqlalchemy import SQLAlchemy
 
+from forms import RegistrationForm
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'my_secret_key'
@@ -75,9 +77,13 @@ def home():
 def login():
     return render_template('login.html')
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    return render_template('register.html')
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        flash(f'Success! Account created for {form.username.data}.')
+        return redirect(url_for('home'))
+    return render_template('register.html', title='Register', form=form)
 
 
 if __name__ == '__main__':

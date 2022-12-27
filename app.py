@@ -36,31 +36,36 @@ class Post(db.Model):
 
 posts = [
     {
-        'author': 'Lisandro Guerra',
+        'author': 'Lisandro S Pires',
+        'email': 'lis@blog.com',
         'title': 'Post 1',
         'content': 'Python Programing',
         'date_posted': 'April 08, 2022'
     },
     {
         'author': 'Maria Moreira',
+        'email': 'cida@blog.com',
         'title': 'Post 2',
         'content': 'Human Resources',
         'date_posted': 'February 05, 2022'
     },
     {
         'author': 'Lisandra S Pires',
+        'email': 'lica@blog.com',
         'title': 'Post 3',
         'content': 'Graphos Theory',
         'date_posted': 'September 30, 2022'
     },
     {
         'author': 'Anita G S Pires',
+        'email': 'nita@blog.com',
         'title': 'Post 4',
         'content': 'Jewelery tips',
         'date_posted': 'November 14, 2022'
     },
     {
         'author': 'Lisandro Guerra',
+        'email': 'lix@blog.com',
         'title': 'Post 5',
         'content': 'Software Engineering',
         'date_posted': 'April 08, 2021'
@@ -95,6 +100,35 @@ def login():
     return render_template('login.html', title='Login', form=form)
 
 
+def new_user_from_dict(user_data):
+    username = user_data['author']
+    email = user_data['email']
+    password = email.split('@')[0]
+    return User(username=username, email=email, password=password)
+
+
+def new_post_from_dict(post_data):
+    title = post_data['title']
+    content = post_data['content']
+    user_id = int(title.split()[1])
+    return Post(title=title, content=content, user_id=user_id)
+    
+
+# # Data Base operations
+# with app.app_context():
+#     db.create_all()
+#     db.drop_all()
+#     db.create_all()
+
+#     for post in posts:
+#         new_user = new_user_from_dict(post)
+#         db.session.add(new_user)
+#     db.session.commit()
+
+#     for post in posts:
+#         new_post = new_post_from_dict(post)
+#         db.session.add(new_post)
+#     db.session.commit()
 
 
 
